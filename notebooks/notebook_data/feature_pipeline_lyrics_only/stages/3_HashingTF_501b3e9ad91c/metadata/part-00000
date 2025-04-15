@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.HashingTF","timestamp":1755434999727,"sparkVersion":"3.5.1","uid":"HashingTF_501b3e9ad91c","paramMap":{"numFeatures":10000,"outputCol":"raw_features","inputCol":"filtered_words"},"defaultParamMap":{"numFeatures":262144,"binary":false,"outputCol":"HashingTF_501b3e9ad91c__output"}}
