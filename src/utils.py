@@ -1,22 +1,13 @@
-# src/utils.py
-
 import logging
 from pyspark.sql import SparkSession
+from config.app_config import SPARK_CONFIG
 
-def create_spark_session(app_name: str) -> SparkSession:
-    """
-    Creates and returns a pre-configured SparkSession.
-
-    Args:
-        app_name (str): The name for the Spark application.
-
-    Returns:
-        SparkSession: The configured Spark session object.
-    """
+def create_spark_session() -> SparkSession:
+    """Creates a SparkSession using settings from the config file."""
     spark = SparkSession.builder \
-        .appName(app_name) \
-        .master("local[2]") \
-        .config("spark.driver.memory", "4g") \
+        .appName(SPARK_CONFIG["app_name"]) \
+        .master(SPARK_CONFIG["master"]) \
+        .config("spark.driver.memory", SPARK_CONFIG["driver_memory"]) \
         .getOrCreate()
     return spark
 

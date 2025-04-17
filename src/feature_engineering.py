@@ -1,9 +1,14 @@
+# src/feature_engineering.py
+
 import os
 import logging
 from pyspark.sql import DataFrame
 from pyspark.ml import Pipeline, PipelineModel
 from pyspark.ml.feature import Tokenizer, StopWordsRemover, HashingTF, IDF, StringIndexer
-from utils import create_spark_session, setup_logging
+
+# Import utility functions and config variables
+from src.utils import create_spark_session, setup_logging
+from config.app_config import TRAIN_DATA_PATH, PIPELINE_PATH, FEATURE_CONFIG
 
 class FeaturePipelineBuilder:
     """Class for creating and managing the feature engineering pipeline."""
@@ -27,9 +32,13 @@ class FeaturePipelineBuilder:
         return StopWordsRemover(inputCol="words", outputCol="filtered_words")
 
     def _create_hashing_tf(self) -> HashingTF:
-        """Creates the HashingTF stage for term frequency."""
+        """Creates the HashingTF stage using parameters from config."""
         self.logger.info("Creating HashingTF stage.")
-        return HashingTF(inputCol="filtered_words", outputCol="raw_features", numFeatures=10000)
+        return HashingTF(
+            inputCol="filtered_words", 
+            outputCol="raw_features", 
+            numFeatures=FEATURE_CONFIG["hashing_tf_features"] 
+        )
 
     def _create_idf(self) -> IDF:
         """Creates the IDF stage for inverse document frequency."""
@@ -48,20 +57,13 @@ class FeaturePipelineBuilder:
         ]
         return Pipeline(stages=stages)
 
-def run_feature_engineering(spark, train_path: str, pipeline_path: str):
-    """
-    Executes the full feature engineering workflow.
-    
-    Args:
-        spark: The SparkSession object.
-        train_path: Path to the cleaned training data.
-        pipeline_path: Path to save the fitted pipeline model.
-    """
+def run_feature_engineering(spark):
+    """Executes the full feature engineering workflow."""
     logger = logging.getLogger(__name__)
     logger.info("--- Starting Feature Engineering Workflow ---")
     
-    logger.info(f"Loading training data from {train_path}")
-    df_train = spark.read.csv(train_path, header=True, inferSchema=True)
+    logger.info(f"Loading training data from {TRAIN_DATA_PATH}")
+    df_train = spark.read.csv(TRAIN_DATA_PATH, header=True, inferSchema=True)
 
     builder = FeaturePipelineBuilder()
     feature_pipeline = builder.build()
@@ -69,8 +71,8 @@ def run_feature_engineering(spark, train_path: str, pipeline_path: str):
     logger.info("Fitting the pipeline on the training data...")
     pipeline_model = feature_pipeline.fit(df_train)
 
-    logger.info(f"Saving the fitted pipeline to {pipeline_path}")
-    pipeline_model.write().overwrite().save(pipeline_path)
+    logger.info(f"Saving the fitted pipeline to {PIPELINE_PATH}")
+    pipeline_model.write().overwrite().save(PIPELINE_PATH)
     
     logger.info("--- Feature Engineering Workflow Complete ---")
 
@@ -78,12 +80,6 @@ def run_feature_engineering(spark, train_path: str, pipeline_path: str):
 if __name__ == "__main__":
     setup_logging()
     
-    PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    TRAIN_DATA_PATH = os.path.join(PROJECT_ROOT, "data", "Mendeley_cleaned_train.csv")
-    PIPELINE_OUTPUT_PATH = os.path.join(PROJECT_ROOT, "models", "feature_pipeline_lyrics_only")
-
-    spark_session = create_spark_session("MusicClassifier_FeatureEngineering")
-    
-    run_feature_engineering(spark_session, TRAIN_DATA_PATH, PIPELINE_OUTPUT_PATH)
-
+    spark_session = create_spark_session()
+    run_feature_engineering(spark_session)
     spark_session.stop()

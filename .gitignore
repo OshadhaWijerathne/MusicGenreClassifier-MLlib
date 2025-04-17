@@ -1,0 +1,4 @@
+models/
+notebooks/notebook_data/
+data/Mendeley_cleaned_test.csv
+data/Mendeley_cleaned_train.csv
