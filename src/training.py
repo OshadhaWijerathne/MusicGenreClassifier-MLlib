@@ -23,10 +23,6 @@ from config.app_config import (
 )
 from pyspark.sql import functions as F
 
-import os
-import sys
-from pyspark.sql import SparkSession
-
 os.environ['PYSPARK_PYTHON'] = Conda_env_path
 os.environ['PYSPARK_DRIVER_PYTHON'] = Conda_env_path
 
