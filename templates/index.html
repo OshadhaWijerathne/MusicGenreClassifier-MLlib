@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Genre Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Music Genre Classifier</h1>
+        <form id="classify-form">
+            <textarea id="lyrics-input" placeholder="Paste song lyrics here..." required></textarea>
+            <button type="submit">Classify</button>
+        </form>
+
+        <div id="results-container" class="hidden">
+            <h2>Ensemble Prediction: <span id="ensemble-prediction"></span></h2>
+            <h3>Individual Model Predictions:</h3>
+            <ul>
+                <li>Gradient Boosted Trees: <span id="gbt-prediction"></span></li>
+                <li>Logistic Regression: <span id="lr-prediction"></span></li>
+                <li>Naive Bayes: <span id="nb-prediction"></span></li>
+            </ul>
+        </div>
+
+        <div id="error-message" class="error hidden"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

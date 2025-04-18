@@ -40,3 +40,15 @@ MODEL_CONFIG = {
     "random_forest_seed": 42,
     "gbt_seed": 42
 }
+
+# --- Web App Settings ---
+# Chart colors for visualization
+CHART_COLORS = {
+    'pop': '#FF6384',
+    'country': '#36A2EB',
+    'blues': '#FFCE56',
+    'jazz': '#4BC0C0',
+    'reggae': '#9966FF',
+    'rock': '#FF9F40',
+    'hip hop': '#C9CBCF'
+}
