@@ -14,7 +14,7 @@ from pyspark.sql import functions as F
 
 # Import project-specific modules
 from src.utils import create_spark_session, setup_logging
-from config.app_config import PIPELINE_PATH, ENSEMBLE_MODEL_PATHS,CHART_COLORS, Conda_env_path
+from config.app_config import PIPELINE_PATH, ENSEMBLE_MODEL_PATHS, Conda_env_path
 
 os.environ['PYSPARK_PYTHON'] = Conda_env_path
 os.environ['PYSPARK_DRIVER_PYTHON'] = Conda_env_path
@@ -129,7 +129,7 @@ class EnsemblePredictor:
 @app.route('/')
 def index():
     """Render the main page."""
-    return render_template('index.html', chart_colors=CHART_COLORS)
+    return render_template('index.html')
 
 @app.route('/classify', methods=['POST'])
 def classify_lyrics():

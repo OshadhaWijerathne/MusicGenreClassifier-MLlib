@@ -2,30 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Genre Classifier</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
     <div class="container">
         <h1>🎵 Music Genre Classifier</h1>
+        <p class="subtitle">Classify songs into genre using machine learning</p>
+
         <form id="classify-form">
-            <textarea id="lyrics-input" placeholder="Paste song lyrics here..." required></textarea>
-            <button type="submit">Classify</button>
+            <textarea 
+                id="lyrics-input" 
+                placeholder="Paste song lyrics here...&#10;&#10;Example:&#10;Yesterday, all my troubles seemed so far away&#10;Now it looks as though they're here to stay..."
+                required>
+            </textarea>
+            <button type="submit" class="submit-btn" id="submit-btn">
+                <span class="btn-text">Classify Genre</span>
+            </button>
         </form>
 
-        <div id="results-container" class="hidden">
-            <h2>Ensemble Prediction: <span id="ensemble-prediction"></span></h2>
-            <h3>Individual Model Predictions:</h3>
-            <ul>
-                <li>Gradient Boosted Trees: <span id="gbt-prediction"></span></li>
-                <li>Logistic Regression: <span id="lr-prediction"></span></li>
-                <li>Naive Bayes: <span id="nb-prediction"></span></li>
-            </ul>
+        <div id="results-container" class="results-container hidden">
+            <div class="ensemble-result" id="ensemble-card">
+                <div class="ensemble-label">Final Prediction</div>
+                <div class="ensemble-genre" id="ensemble-prediction"></div>
+            </div>
+
+            <div class="individual-results">
+                <div class="model-card gbt">
+                    <div class="model-name">Gradient Boosted Trees</div>
+                    <div class="model-prediction" id="gbt-prediction"></div>
+                </div>
+                <div class="model-card lr">
+                    <div class="model-name">Logistic Regression</div>
+                    <div class="model-prediction" id="lr-prediction"></div>
+                </div>
+                <div class="model-card nb">
+                    <div class="model-name">Naive Bayes</div>
+                    <div class="model-prediction" id="nb-prediction"></div>
+                </div>
+            </div>
         </div>
 
-        <div id="error-message" class="error hidden"></div>
+        <div id="error-message" class="error-message hidden"></div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="../static/js/scripts.js"></script>
 </body>
 </html>
