@@ -25,8 +25,8 @@ The app is **Dockerized** for one-command setup.
 
 ## 📸 Screenshots
 
-![Web App Screenshot 1](images/screenshot_1.png)
-![Web App Screenshot 2](images/screenshot_2.png)
+![Web App Screenshot 1](images/Screenshot_1.png)
+![Web App Screenshot 2](images/Screenshot_2.png)
 
 ---
 
